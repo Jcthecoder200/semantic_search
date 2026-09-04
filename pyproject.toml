@@ -1,0 +1,45 @@
+[build-system]
+requires = ["setuptools>=68.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+# CHANGE THIS: pick a name not already taken on PyPI (check at pypi.org first).
+name = "JCcoder0901semantic_search"
+version = "0.1.0"
+description = "Search your own files by meaning, entirely offline, through a simple local web UI."
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+# CHANGE THIS: put your own name/contact here (or leave email out if you'd rather not share it).
+authors = [
+    { name = "Jcthecoder200" }
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: End Users/Desktop",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+]
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "fastembed",
+    "numpy",
+]
+
+[project.urls]
+# CHANGE THIS once you have a GitHub repo for it — PyPI shows this on your project page.
+Homepage = "https://github.com/Jcthecoder200/semantic_search"
+
+[project.scripts]
+# This is the command people type after `pip install JCcoder0901semantic_search`.
+localsearch = "search_api.main:start"
+
+[tool.setuptools.packages.find]
+include = ["search_api*"]
+
+[tool.setuptools.package-data]
+# Ships the browser UI (index.html) inside the installed package —
+# without this, pip install would silently omit it and / would 404.
+search_api = ["static/*"]
