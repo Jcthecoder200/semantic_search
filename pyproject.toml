@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 # CHANGE THIS: pick a name not already taken on PyPI (check at pypi.org first).
-name = "JCcoder0901semantic_search"
+name = "JCcoder0901semantic-search"
 version = "0.1.0"
 description = "Search your own files by meaning, entirely offline, through a simple local web UI."
 readme = "README.md"
@@ -33,7 +33,7 @@ dependencies = [
 Homepage = "https://github.com/Jcthecoder200/semantic_search"
 
 [project.scripts]
-# This is the command people type after `pip install JCcoder0901semantic_search`.
+# This is the command people type after `pip install JCcoder0901semantic-search`.
 localsearch = "search_api.main:start"
 
 [tool.setuptools.packages.find]

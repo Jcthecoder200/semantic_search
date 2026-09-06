@@ -5,34 +5,18 @@ your own machine, nothing uploaded anywhere.
 
 ## Install
 
-**Recommended: [pipx](https://pipx.pypa.io)** — installs the command and
-automatically makes it available in your terminal, avoiding a common
-Windows/Mac/Linux gotcha where plain `pip install` puts the command
-somewhere your terminal doesn't look (see Troubleshooting below if you hit
-this).
-
 ```
-pip install pipx
-pipx ensurepath
-pipx install JCcoder0901semantic_search
-```
-*(rename `JCcoder0901semantic_search` once you've picked and published under your
-chosen name)*
-
-**Alternative: plain pip**
-```
-pip install JCcoder0901semantic_search
+pip install JCcoder0901semantic-search
 ```
 
 ## Run
 
 ```
-localsearch
+python -m search_api.main
 ```
 
-If that command isn't found, see **Troubleshooting** below — this is a very
-common first-run snag with Python command-line tools in general, not
-specific to this one, and there's a guaranteed-to-work fallback.
+This works every time, regardless of how your terminal's PATH is set up —
+no extra configuration needed.
 
 Then open your browser to:
 ```
@@ -52,33 +36,35 @@ You'll see a simple page:
    terms.
 
 That's the whole workflow — no curl, no JSON, no terminal commands after the
-initial `localsearch`.
+initial run command.
 
 First run downloads a small embedding model (~50MB via `fastembed`), needs
 internet once, then works fully offline.
 
-Your search index is saved to `~/.local_file_search/index.pkl`, so it
-survives restarts — you don't need to re-index folders you already indexed.
+Your search index is saved to `~/.local_file_search/index.pkl` — in your own
+user folder, separate from the installed package. It survives reinstalls
+and updates, and it's private to your own machine; installing this package
+never gives anyone else access to your indexed files or search history.
 
-## Troubleshooting: "localsearch is not recognized"
+## Optional: using the `localsearch` shortcut command instead
 
-This happens when `pip` (not `pipx`) installs the command into a folder your
-terminal's PATH doesn't include — it's a well-known Python packaging quirk,
-most common on Windows, and not something wrong with your installation.
+`pip` also installs a shortcut command, `localsearch`, that does the exact
+same thing as `python -m search_api.main`. Whether it works out of the box
+depends on your system's PATH setup — a well-known Python packaging quirk,
+most common on Windows, and not something wrong with your installation if it
+doesn't. There's no need to fix this; `python -m search_api.main` above
+always works regardless. If you'd like the shortcut working anyway:
 
-**Guaranteed fix, works every time regardless of PATH:**
-```
-python -m search_api.main
-```
-
-**Permanent fix:** switch to `pipx` (see Install above) — it's built
-specifically to solve this, or manually add Python's Scripts folder to your
-PATH:
 ```
 python -c "import sysconfig; print(sysconfig.get_path('scripts'))"
 ```
 Add the folder that prints to your system PATH (search "environment
 variables" in the Start menu on Windows), then open a *new* terminal window.
+
+Alternatively, [pipx](https://pipx.pypa.io) is built to handle this
+automatically — though it can hit the same PATH issue itself on some
+systems, in which case run `python -m pipx ensurepath` instead of
+`pipx ensurepath`.
 
 ## Running via Docker instead (optional)
 
@@ -115,14 +101,17 @@ persists the index outside the container so it survives restarts.
   mode selector controls whether "closest" is judged by filename, content,
   or whichever of the two is the stronger match.
 
-## Publishing this yourself (for the maintainer)
+## Publishing new versions (for the maintainer)
 
-```
-pip install build twine
-python -m build
-twine upload dist/*
-```
-Before your first upload: pick a unique name at pypi.org, update it in
-`pyproject.toml` (`name` and the `localsearch` install command above), fill
-in your name in `pyproject.toml` and `LICENSE`, and set up a PyPI API token
-for `twine` to use.
+This project publishes to PyPI automatically via GitHub Actions
+(`.github/workflows/publish.yml`) using PyPI's Trusted Publishing — no
+manual `twine upload` or API token needed.
+
+To release a new version:
+1. Bump `version` in `pyproject.toml`.
+2. Commit and push the change.
+3. On GitHub: **Releases → Draft a new release**, tag it (e.g. `v0.1.1`),
+   and publish the release.
+
+That triggers the workflow, which builds the package and uploads it to
+PyPI automatically.
