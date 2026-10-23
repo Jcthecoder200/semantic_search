@@ -2,6 +2,12 @@ FROM python:3.11-slim
 
 WORKDIR /app
 
+#update to the latest version to reject old keys
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends ca-certificates && \
+    apt-get upgrade -y ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+    
 # Install deps first so Docker caches this layer (only re-runs if requirements.txt changes)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
