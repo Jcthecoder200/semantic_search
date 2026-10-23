@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 # CHANGE THIS: pick a name not already taken on PyPI (check at pypi.org first).
 name = "JCcoder0901semantic-search"
-version = "0.2.2"
+version = "0.2.3"
 description = "Search your own files by meaning, entirely offline, through a simple local web UI."
 readme = "README.md"
 requires-python = ">=3.9"
